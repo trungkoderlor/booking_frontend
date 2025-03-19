@@ -1,0 +1,46 @@
+.InfoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-size: cover;
+  background-position: center;
+}
+.icon {
+  margin-right: 3px;
+  width: 3vh;
+  height: 3vh;
+}
+.title {
+  font-size: 0.9em;
+  font-weight: 300;
+}
+@media (max-width: 768px) {
+  .InfoItem {
+    flex-direction: column; /* Chuyển sang dọc */
+    text-align: center;
+    height: auto;
+    padding: 15px;
+  }
+  .icon {
+    margin-right: 0;
+    margin-bottom: 3px;
+    width: 8vh;
+    height: 8vh;
+  }
+  .title {
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 480px) {
+  .InfoItem {
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .icon {
+    width: 3vh;
+    height: 3vh;
+  }
+  .title {
+    font-size: 0.8em;
+  }
+}

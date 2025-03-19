@@ -1,0 +1,22 @@
+.clinics-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 2; /* Giữ ảnh luôn vuông */
+    object-fit: contain;
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    margin-bottom: 10px;
+  }
+}
+.clinics-list > * {
+  width: 100%;
+}
+:global {
+  .specialtyItem {
+    text-align: center;
+  }
+}

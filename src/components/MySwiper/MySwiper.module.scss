@@ -1,0 +1,45 @@
+.slide-item {
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid var(--border-color);
+  background-color: var(--white);
+}
+.swiper-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--default-layout-width); /* Giới hạn chiều rộng */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+:global {
+  .swiper-button-next,
+  .swiper-button-prev {
+    background-color: transparent !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    border: 1px solid var(--secondary) !important;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: var(--icon-color-secondary) !important;
+  }
+
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    color: var(--secondary) !important;
+    opacity: 0.8 !important;
+    transform: scale(1.1) !important;
+  }
+}

@@ -1,0 +1,52 @@
+.ServiceItem {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 30px;
+  margin-bottom: 10px;
+  height: 96px;
+  background-image: url('../../assets/images/services/bg.png');
+  background-size: cover;
+  background-position: center;
+}
+.icon {
+  margin-right: 10%;
+  width: 6vh;
+  height: 6vh;
+  filter: drop-shadow(0 0 15px rgba(255, 200, 50, 0.6));
+}
+.name {
+  font-size: 1.3em;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .ServiceItem {
+    flex-direction: column; /* Chuyển sang dọc */
+    text-align: center;
+    height: auto;
+    padding: 15px;
+  }
+  .icon {
+    margin-right: 0;
+    margin-bottom: 3px;
+    width: 8vh;
+    height: 8vh;
+  }
+  .name {
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 480px) {
+  .ServiceItem {
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .icon {
+    width: 3vh;
+    height: 3vh;
+  }
+  .name {
+    font-size: 0.8em;
+  }
+}

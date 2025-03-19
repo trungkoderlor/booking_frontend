@@ -1,0 +1,93 @@
+.ServiceList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.poster {
+  margin-top: 20px;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+}
+.ServiceList > * {
+  width: calc(50% - 15px); /* Chia 2 cột, trừ đi khoảng cách */
+}
+.slide-item {
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid var(--border-color);
+  background-color: var(--white);
+}
+.swiper-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--default-layout-width); /* Giới hạn chiều rộng */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+:global {
+  .swiper-button-next,
+  .swiper-button-prev {
+    background-color: white !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    border: 1px solid var(--secondary) !important;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: var(--icon-color-secondary) !important;
+  }
+
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    color: var(--secondary) !important;
+    opacity: 0.8 !important;
+    transform: scale(1.1) !important;
+  }
+}
+.slide-item-doctor {
+  padding: 20px;
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+.future-doctor,
+.mentalHealth {
+  position: relative;
+}
+.future-doctor::before,
+.mentalHealth::before {
+  content: '';
+  margin: 0px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 101vw;
+  height: 100%;
+  background-image: url('../../../assets/images/doctors/bg.png');
+  transform: translateX(-51%);
+  z-index: -1;
+  margin-top: 20px;
+}
+.title {
+  padding: 5vh 0;
+  font-size: 1.3rem;
+}
+.posts {
+  img {
+    border-radius: 20px;
+  }
+}
