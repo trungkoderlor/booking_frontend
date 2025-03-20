@@ -35,7 +35,7 @@
   }
 }
 .nav {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   ul {
@@ -43,22 +43,17 @@
     list-style: none;
   }
   li {
-    padding: 10px 10px;
-    border-radius: 99999px;
+    h4 {
+      margin: 0;
+      padding: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
     margin-right: 10px;
-    border: 1px solid transparent;
-
     a {
       color: var(--text-color);
       text-decoration: none;
-      font-size: 1.1rem;
-    }
-  }
-  .active {
-    background-color: var(--hover-background-color);
-    a {
-      font-weight: 700;
-      color: var(--hover-color);
+      font-size: 0.7em;
     }
   }
 }
@@ -87,14 +82,14 @@
     text-decoration: none;
     color: var(--icon-color-secondary);
     svg {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       margin-bottom: 5px;
     }
     span {
       display: block;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--icon-color-secondary);
-      font-weight: 700;
+      font-weight: 600;
     }
   }
 }

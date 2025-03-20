@@ -5,8 +5,8 @@ import Image from '../../../assets/images';
 
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faBars, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import { faHandshake } from '@fortawesome/free-regular-svg-icons';
+import { faMagnifyingGlass, faBars, faUser } from '@fortawesome/free-solid-svg-icons';
+
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -15,21 +15,35 @@ function Header() {
       <div className={cx('inner')}>
         <h1 className={cx('logo')}>
           <FontAwesomeIcon icon={faBars} className={cx('icon-bars')} />
-          <img src={Image.logo} alt="logo" width="200px" />
+          <Link to="/">
+            <img src={Image.logo} alt="logo" width="200px" />
+          </Link>
         </h1>
         <nav className={cx('nav')}>
           <ul>
-            <li className={cx('active')}>
-              <Link to="/">Tất Cả</Link>
+            <li>
+              <Link to="/dich-vu-y-te/kham-chuyen-khoa">
+                <h4>Chuyên khoa</h4>
+                <span>Tìm bác sĩ theo chuyên khoa</span>
+              </Link>
             </li>
             <li>
-              <Link to="/dich-vu/tai-nha">Tại Nhà</Link>
+              <Link to="/co-so-y-te">
+                <h4>Cơ sở y tế</h4>
+                <span>Chọn bệnh viện phòng khám</span>
+              </Link>
             </li>
             <li>
-              <Link to="/dich-vu/tai-vien">Tại Viện</Link>
+              <Link to="/bac-si">
+                <h4>Bác sĩ</h4>
+                <span>Chọn bác sĩ giỏi</span>
+              </Link>
             </li>
             <li>
-              <Link to="/dich-vu/song-khoe">Sống Khỏe</Link>
+              <Link to="/bai-viet">
+                <h4>Cẩm nang</h4>
+                <span>Hiểu để sống khỏe</span>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -39,12 +53,8 @@ function Header() {
         </Link>
         <div className={cx('right-menu')}>
           <Link to="/contact" className={cx('contact')}>
-            <FontAwesomeIcon icon={faHandshake} />
-            <span>Hợp tác</span>
-          </Link>
-          <Link to="/lich-hen" className={cx('Schedule')}>
-            <FontAwesomeIcon icon={faClockRotateLeft} />
-            <span>Lịch hẹn</span>
+            <FontAwesomeIcon icon={faUser} />
+            <span>Tài khoản</span>
           </Link>
         </div>
       </div>

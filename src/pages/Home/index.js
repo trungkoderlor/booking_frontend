@@ -112,12 +112,12 @@ function Home() {
           >
             {clinics.map((item) => (
               <SwiperSlide key={item.id}>
-                <div className={cx('slide-item')}>
+                <div className={cx('slide-item', 'clinic')}>
                   <RectangleItem
                     key={item._id}
                     srcImage={`http://localhost:3003${item.avatar}`}
                     title={item.name}
-                    link={`/dich-vu-y-te/kham-chuyen-khoa/${item.slug}`}
+                    link={`/co-so-y-te/${item.slug}`}
                   />
                 </div>
               </SwiperSlide>
@@ -131,60 +131,15 @@ function Home() {
           <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={doctors.length > 3}>
             {doctors.map((item) => (
               <SwiperSlide key={item.id}>
-                <div className={cx('slide-item')}>
-                  <RectangleItem
+                <div className={cx('slide-item', 'doctor')}>
+                  <DoctorItem
                     className={cx('home')}
+                    specialty={item.specialty}
                     key={item._id}
                     srcImage={`http://localhost:3003${item.userId.avatar}`}
                     title={item.userId.fullname}
-                    link={`/dich-vu-y-te/kham-chuyen-khoa/${item.userId.slug}`}
+                    link={`/bac-si/${item.userId.slug}`}
                   />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-      <div className={classNames(cx('telemedice', 'category'))}>
-        <h4 className={cx('title')}>Khám Từ Xa</h4>
-        <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
-            {items.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className={cx('slide-item')}>
-                  <RectangleItem
-                    srcImage={images.tamLyTuXa}
-                    title="Tư vấn, trị liệu Tâm lý từ xa"
-                    link="/dich-vu-y-te/kham-tu-xa/tu-van-tri-lieu-tam-ly-tu-xa-s65"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-      <div className={classNames(cx('mentalHealth', 'category'))}>
-        <h4 className={cx('title')}>Sức Khỏe Tinh Thần</h4>
-        <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
-            {items.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className={cx('slide-item')}>
-                  <RectangleItem srcImage={images.timMach} title="Tim mạch" link="/dich-vu-y-te/kham-chuyen-khoa" />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-      <div className={classNames(cx('qa-doctor', 'category'))}>
-        <h4 className={cx('title')}>Bác Sĩ Hỏi Đáp</h4>
-        <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
-            {items.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className={cx('slide-item')}>
-                  <RectangleItem srcImage={images.timMach} title="Tim mạch" link="/dich-vu-y-te/kham-chuyen-khoa" />
                 </div>
               </SwiperSlide>
             ))}
@@ -194,7 +149,7 @@ function Home() {
       <div className={classNames(cx('posts', 'category'))}>
         <h4 className={cx('title')}>Cẩm Nang</h4>
         <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={4} spaceBetween={40} navigation={true} loop={true}>
+          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
             {items.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className={cx('slide-item-post')}>
@@ -208,7 +163,7 @@ function Home() {
       <div className={classNames(cx('posts', 'category'))}>
         <h4 className={cx('title')}>Sống khỏe suốt đời</h4>
         <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={4} spaceBetween={40} navigation={true} loop={true}>
+          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
             {items.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className={cx('slide-item-post')}>

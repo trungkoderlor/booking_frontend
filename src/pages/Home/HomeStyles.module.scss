@@ -32,6 +32,16 @@
   border: 2px solid var(--border-color);
   background-color: var(--white);
 }
+.clinic {
+  h4 {
+    font-weight: 600;
+  }
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 2; /* Giữ ảnh luôn vuông */
+    object-fit: contain;
+  }
+}
 .swiper-container {
   position: relative;
   width: 100%;
@@ -81,6 +91,10 @@
 .future-doctor,
 .mentalHealth {
   position: relative;
+}
+.doctor {
+  border: none;
+  background-color: transparent;
 }
 .future-doctor::before,
 .mentalHealth::before {

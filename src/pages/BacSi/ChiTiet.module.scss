@@ -1,0 +1,98 @@
+.time-table_clinic {
+  display: flex;
+  gap: 8px;
+
+  svg {
+    margin-right: 8px;
+  }
+}
+// upperCase
+.title {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.time,
+.clinic {
+  flex: 1;
+  padding: 20px;
+}
+.time {
+  flex: 1.5;
+  min-width: 250px;
+  padding-left: 0;
+}
+
+.sDatePicker {
+  position: relative;
+  option {
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  select {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    color: var(--icon-color-secondary);
+    font-weight: 700;
+    background: white;
+    cursor: pointer;
+    outline: none;
+  }
+}
+.time-table {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  .time-item {
+    padding: 12px 4px;
+    text-align: center;
+    background: #eeeeee;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    &:hover {
+      border: 2px solid var(--icon-color-secondary);
+      padding: 10px 2px;
+    }
+  }
+}
+.clinic {
+  border-left: 1px solid var(--border-color);
+  .title {
+    font-size: 0.9rem;
+    color: #666666;
+  }
+  .name {
+    color: var(--icon-color-secondary);
+    font-weight: 700;
+  }
+  .address {
+    margin-top: 5px;
+    font-size: 0.7rem;
+    color: #666666;
+  }
+}
+.description {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px;
+
+  &::before {
+    content: '';
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    border-top: 1px solid var(--grey);
+    border-bottom: 25px solid var(--secondary);
+
+    left: 50%;
+    width: 101vw;
+    height: 100%;
+    background-color: var(--bg-footer-color);
+    transform: translateX(-51%);
+    z-index: -9999;
+  }
+}

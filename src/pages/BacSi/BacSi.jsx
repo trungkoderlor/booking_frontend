@@ -1,18 +1,19 @@
-import SpecialtyItem from '../../components/SpecialtyItem';
+import DoctorItem from '../../components/DoctorItem';
 import { Helmet } from 'react-helmet-async';
-import styles from './CoSoYTe.module.scss';
+import styles from './BacSi.module.scss';
 import classNames from 'classnames/bind';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 const cx = classNames.bind(styles);
-function CoSoYTe() {
-  const [clinics, setClinics] = useState([]);
+function BacSi() {
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/clinics')
+      .get('http://localhost:3003/api/doctors')
       .then((response) => {
-        setClinics(response.data);
+        setDoctors(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -26,18 +27,20 @@ function CoSoYTe() {
   return (
     <div className={cx('wrapper')}>
       <Helmet>
-        <title>Các cơ sở y tế uy tín</title>
+        <title>Bác sĩ nổi bật</title>
       </Helmet>
       <div className={cx('title')}>
-        <h2>Các cơ sở y tế uy tín</h2>
+        <h2>Bác sĩ nổi bật</h2>
       </div>
-      <div className={cx('clinics-list')}>
-        {clinics.map((item) => (
-          <SpecialtyItem
+      <div className={cx('doctors-list')}>
+        {doctors.map((item) => (
+          <DoctorItem
+            className={cx('list')}
+            specialty={item.specialty}
             key={item._id}
-            srcIcon={`http://localhost:3003${item.avatar}`}
-            title={item.name}
-            link={`/co-so-y-te/${item.slug}`}
+            srcImage={`http://localhost:3003${item.userId.avatar}`}
+            title={item.userId.fullname}
+            link={`/bac-si/${item.userId.slug}`}
           />
         ))}
       </div>
@@ -45,4 +48,4 @@ function CoSoYTe() {
   );
 }
 
-export default CoSoYTe;
+export default BacSi;
