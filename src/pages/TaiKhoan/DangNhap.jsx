@@ -36,7 +36,7 @@ function DangNhap() {
   };
   const handleLogin = () => {
     axios
-      .post('http://localhost:3003/auth/login', inputs)
+      .post('http://localhost:3003/api/auth/login', inputs)
       .then((res) => {
         Cookies.set('token', res.data.token, { expires: 7, secure: true });
         login(res.data.token);
@@ -51,53 +51,53 @@ function DangNhap() {
       <div className={cx('form')}>
         <ul className={cx('tab-group')}>
           <li className={cx('tab', { active: !isLogin })} onClick={() => setIsLogin(false)}>
-            <span>Sign Up</span>
+            <span>Đăng Kí</span>
           </li>
           <li className={cx('tab', { active: isLogin })} onClick={() => setIsLogin(true)}>
-            <span>Log In</span>
+            <span>Đăng Nhập</span>
           </li>
         </ul>
 
         <div className={cx('tab-content')}>
           {isLogin ? (
             <div id="login">
-              <h1>Welcome Back!</h1>
+              <h1>Đăng Nhập Để Đặt Lịch Ngay!</h1>
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.email })}>
-                  Email Address<span className={cx('req')}>*</span>
+                  Địa Chỉ Email<span className={cx('req')}>*</span>
                 </label>
                 <input type="email" name="email" value={inputs.email} onChange={handleInputChange} required />
               </div>
 
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.password })}>
-                  Password<span className={cx('req')}>*</span>
+                  Mật Khẩu<span className={cx('req')}>*</span>
                 </label>
                 <input type="password" name="password" value={inputs.password} onChange={handleInputChange} required />
               </div>
 
               <p className={cx('forgot')}>
-                <a href="#">Forgot Password?</a>
+                <a href="#">Quên Mật Khẩu?</a>
               </p>
 
               <button className={cx('button', 'button-block')} onClick={handleLogin}>
-                Log In
+                Đăng Nhập
               </button>
             </div>
           ) : (
             <div id="signup">
-              <h1>Sign Up for Free</h1>
+              <h1>Đăng Kí Miễn Phí</h1>
               <div className={cx('top-row')}>
                 <div className={cx('field-wrap')}>
                   <label className={cx({ active: inputs.firstName })}>
-                    First Name<span className={cx('req')}>*</span>
+                    Họ<span className={cx('req')}>*</span>
                   </label>
                   <input type="text" name="firstName" value={inputs.firstName} onChange={handleInputChange} required />
                 </div>
 
                 <div className={cx('field-wrap')}>
                   <label className={cx({ active: inputs.lastName })}>
-                    Last Name<span className={cx('req')}>*</span>
+                    Tên<span className={cx('req')}>*</span>
                   </label>
                   <input type="text" name="lastName" value={inputs.lastName} onChange={handleInputChange} required />
                 </div>
@@ -105,20 +105,20 @@ function DangNhap() {
 
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.email })}>
-                  Email Address<span className={cx('req')}>*</span>
+                  Địa Chỉ Email<span className={cx('req')}>*</span>
                 </label>
                 <input type="email" name="email" value={inputs.email} onChange={handleInputChange} required />
               </div>
-
+              {/* <div className={cx('top-row')}> */}
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.password })}>
-                  Set A Password<span className={cx('req')}>*</span>
+                  Đặt Mật Khẩu<span className={cx('req')}>*</span>
                 </label>
                 <input type="password" name="password" value={inputs.password} onChange={handleInputChange} required />
               </div>
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.password })}>
-                  Comfirm Password<span className={cx('req')}>*</span>
+                  Xác Nhận Mật Khẩu<span className={cx('req')}>*</span>
                 </label>
                 <input
                   type="password"
@@ -128,9 +128,10 @@ function DangNhap() {
                   required
                 />
               </div>
+              {/* </div> */}
 
               <button type="submit" className={cx('button', 'button-block')}>
-                Get Started
+                Xác Nhận
               </button>
             </div>
           )}

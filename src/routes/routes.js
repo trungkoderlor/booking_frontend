@@ -8,7 +8,7 @@ import { KhamChuyenKhoa, ChiTietChuyenKhoa } from '../pages/dichvuyte';
 import { CoSoYTe, ChiTietCoSoYTe } from '../pages/CoSoYTe';
 import { BacSi, ChiTietBacSi, DatLich } from '../pages/BacSi';
 import { DangNhap } from '../pages/TaiKhoan';
-
+import { LichKham, HuongDan } from '../pages/LichKham';
 // Public routes
 const publicRoutes = [
   { path: config.routes.home, component: Home },
@@ -22,6 +22,10 @@ const publicRoutes = [
   { path: config.routes.dangNhap, component: DangNhap, layout: null },
 ];
 
-const privateRoutes = [{ path: config.routes.datLichKham, component: DatLich, layout: HeaderOnly }];
+const privateRoutes = [
+  { path: config.routes.datLichKham, component: DatLich, layout: HeaderOnly },
+  { path: config.routes.lichKham, component: LichKham },
+  { path: config.routes.huongDan, component: HuongDan },
+];
 
 export { publicRoutes, privateRoutes };

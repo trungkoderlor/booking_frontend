@@ -10,6 +10,8 @@ const routes = {
   datLichKham: '/bac-si/:slug/dat-lich/:schedule_id',
   khamChuyenKhoa: '/dich-vu-y-te/kham-chuyen-khoa',
   chiTietChuyenKhoa: '/dich-vu-y-te/kham-chuyen-khoa/:slug',
+  lichKham: '/lich-kham',
+  huongDan: '/lich-kham/huong-dan/:id',
   dangNhap: 'tai-khoan/dang-nhap',
 
   search: '/search',

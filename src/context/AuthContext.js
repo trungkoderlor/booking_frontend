@@ -1,12 +1,30 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(Cookies.get('token') || null);
   const [showLogin, setShowLogin] = useState(false);
-
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (token) {
+      axios
+        .get('http://localhost:3003/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => setUser(res.data))
+        .catch(() => {
+          setUser(null);
+          Cookies.removeItem('token');
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [token]);
   const login = (newToken) => {
     Cookies.set('token', newToken, { expires: 7, secure: true });
     setToken(newToken);
@@ -19,7 +37,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, showLogin, setShowLogin }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ token, user, loading, login, logout, showLogin, setShowLogin }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

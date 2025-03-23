@@ -3,6 +3,7 @@ const icons = {
   facebook: require('./facebook.png'),
   youtube: require('./youtube.png'),
   tiktok: require('./tiktok.png'),
+  doctor: require('./doctor.png'),
 };
 
 export default icons;
