@@ -1,17 +1,18 @@
 import classNames from 'classnames/bind';
-import Search from '../Search';
 import styles from './Header.module.scss';
 import Image from '../../../assets/images';
-
+import { useAuth } from '../../../hooks';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Header() {
+function Header({ className }) {
+  const { token, setShowLogin, logout } = useAuth();
+
   return (
-    <header className={cx('wrapper')}>
+    <header className={cx('wrapper', className)}>
       <div className={cx('inner')}>
         <h1 className={cx('logo')}>
           <FontAwesomeIcon icon={faBars} className={cx('icon-bars')} />
@@ -52,10 +53,17 @@ function Header() {
           <span className={cx('place-holder')}>Tìm kiếm ...</span>
         </Link>
         <div className={cx('right-menu')}>
-          <Link to="/contact" className={cx('contact')}>
-            <FontAwesomeIcon icon={faUser} />
-            <span>Tài khoản</span>
-          </Link>
+          {token ? (
+            <a onClick={logout}>
+              <FontAwesomeIcon icon={faUser} />
+              <span>Dau Huy Trung</span>
+            </a>
+          ) : (
+            <a onClick={() => setShowLogin(true)}>
+              <FontAwesomeIcon icon={faUser} />
+              <span>Đăng Nhập</span>
+            </a>
+          )}
         </div>
       </div>
     </header>

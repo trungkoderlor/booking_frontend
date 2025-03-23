@@ -1,8 +1,6 @@
 import styles from './InfoItem.module.scss';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
 import Image from '../Image';
-import images from '../../assets/images';
 const cx = classNames.bind(styles);
 
 function InfoItem({ srcIcon, title }) {

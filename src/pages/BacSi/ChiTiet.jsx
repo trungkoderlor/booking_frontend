@@ -3,11 +3,13 @@ import DoctorItem from '../../components/DoctorItem';
 import classNames from 'classnames/bind';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+
+import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faHouseMedical } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks';
 const cx = classNames.bind(styles);
 function SDatePicker({ onChange }) {
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
@@ -50,11 +52,13 @@ function SDatePicker({ onChange }) {
 }
 
 function ChiTiet() {
+  const { token, setShowLogin } = useAuth();
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [scehdule, setSchedule] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [redirectTo, setRedirectTo] = useState(null);
   const { slug } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`http://localhost:3003/api/doctors/${slug}`)
@@ -68,6 +72,11 @@ function ChiTiet() {
         setLoading(false);
       });
   }, [slug]);
+  useEffect(() => {
+    if (token && redirectTo) {
+      navigate(redirectTo);
+    }
+  }, [token, redirectTo, navigate]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -78,7 +87,6 @@ function ChiTiet() {
   let filteredSchedule = [];
   if (doctor.schedule.length > 0) {
     const now = new Date();
-    const currentHour = now.getHours();
     filteredSchedule = doctor.schedule.filter((item) => {
       const scheduleDate = item.date.split('T')[0];
       if (scheduleDate !== selectedDate) return false;
@@ -95,10 +103,7 @@ function ChiTiet() {
       return true; // Nếu là ngày khác thì lấy hết
     });
   }
-  //lấy ngày hôm nay
-  let today = new Date();
 
-  console.log(today);
   return (
     <div className={cx('wrapper')}>
       <Helmet>
@@ -127,8 +132,19 @@ function ChiTiet() {
           </div>
           {filteredSchedule.length > 0 ? (
             <div className={cx('time-table')}>
-              {filteredSchedule.map((item) => (
-                <Link to="/" key={item._id} className={cx('time-item')}>
+              {filteredSchedule.map((item, index) => (
+                <Link
+                  to={token ? `/bac-si/${slug}/dat-lich/${item._id}` : '#'}
+                  key={item._id}
+                  className={cx('time-item')}
+                  onClick={(e) => {
+                    if (!token) {
+                      e.preventDefault();
+                      setRedirectTo(`/bac-si/${slug}/dat-lich/${item._id}`);
+                      setShowLogin(true);
+                    }
+                  }}
+                >
                   <span>{item.timeType}</span>
                 </Link>
               ))}

@@ -2,7 +2,6 @@ import styles from './DoctorItem.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Image from '../../components/Image';
-import images from '../../assets/images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);

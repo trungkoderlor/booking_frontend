@@ -2,7 +2,6 @@ import styles from './ServiceItem.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Image from '../../components/Image';
-import images from '../../assets/images';
 const cx = classNames.bind(styles);
 
 function ServiceItem({ srcIcon, title, link }) {

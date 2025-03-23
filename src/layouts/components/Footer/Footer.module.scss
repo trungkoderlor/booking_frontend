@@ -5,8 +5,8 @@
 }
 .footer-top {
   width: 100%;
+  padding: 20px 0;
   max-width: var(--default-layout-width);
-  height: 100%;
   position: relative;
   &::before {
     content: '';

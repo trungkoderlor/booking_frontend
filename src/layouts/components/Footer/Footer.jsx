@@ -22,9 +22,6 @@ function Footer() {
             <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
             <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
             <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
-            <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
-            <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
-            <InfoItem srcIcon={icons.location} title="Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội" />
           </div>
           <div className={classNames(cx('service'), 'col-3')}>
             <Link to="/">

@@ -1,7 +1,5 @@
 import SpecialtyItem from '../../../components/SpecialtyItem';
 import styles from './KhamChuyenKhoa.module.scss';
-import Image from '../../../components/Image';
-import images from '../../../assets/images';
 import classNames from 'classnames/bind';
 import axios from 'axios';
 import { useEffect, useState } from 'react';

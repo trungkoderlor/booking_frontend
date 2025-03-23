@@ -1,0 +1,114 @@
+.wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+.doctor_info {
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+.content {
+  width: 100%;
+  max-width: 670px;
+  padding: 20px 0;
+  display: flex;
+  position: relative;
+  svg {
+    color: var(--icon-color);
+    margin-right: 10px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 20px;
+  }
+  img {
+    width: 8vw;
+    height: 8vw;
+    min-width: 80px;
+    aspect-ratio: 1 / 1;
+    border-radius: 999999px;
+    object-fit: cover;
+  }
+  h5 {
+    color: var(--text-color-secondary);
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  &::before {
+    content: '';
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 101vw;
+    height: 100%;
+    border-bottom: 1px solid var(--grey);
+    background-color: var(--bg-footer-color);
+    transform: translateX(-51%);
+    z-index: -9999;
+  }
+  .name {
+    color: #337ab7;
+  }
+  .schedule {
+    color: #bc3a23;
+    font-weight: 550;
+  }
+  .clinic {
+    font-size: 0.8rem;
+    h5 {
+      margin-bottom: 3px;
+    }
+    span {
+      margin-left: 25px;
+    }
+  }
+}
+.patient_form {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  .submit {
+    width: 100%;
+    padding: 10px 0;
+    max-width: 670px;
+    display: flex;
+    justify-content: center;
+    background-color: #337ab7;
+    color: var(--white);
+    border-radius: 5px;
+    font-weight: 600;
+  }
+}
+.footer {
+  height: 100px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  &::before {
+    content: '';
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 101vw;
+    height: 100%;
+    border-bottom: 1px solid var(--grey);
+    background-color: var(--bg-footer-color);
+    transform: translateX(-51%);
+    z-index: -9999;
+  }
+}

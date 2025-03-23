@@ -74,6 +74,7 @@
 .right-menu {
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   a {
     display: flex;
@@ -126,5 +127,14 @@
 
   .nav {
     display: none; // Ẩn menu nav khi màn hình nhỏ
+  }
+}
+.dat_lich {
+  background-color: var(--white) !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  .search_virtual {
+    display: none;
   }
 }
