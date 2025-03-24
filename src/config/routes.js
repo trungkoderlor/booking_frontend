@@ -13,7 +13,7 @@ const routes = {
   lichKham: '/lich-kham',
   huongDan: '/lich-kham/huong-dan/:id',
   dangNhap: 'tai-khoan/dang-nhap',
-
+  thongTin: '/thong-tin/:slug',
   search: '/search',
 };
 

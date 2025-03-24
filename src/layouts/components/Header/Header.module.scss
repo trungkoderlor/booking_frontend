@@ -170,3 +170,37 @@
     transform: rotate(360deg);
   }
 }
+.user-menu {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  .dropdown-menu {
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    z-index: 10;
+
+    a,
+    span {
+      display: block;
+      padding: 10px;
+      text-align: left;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--icon-color-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@ const { useAuth } = require('../../hooks');
 const cx = classNames.bind(styles);
 
 function DangNhap() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [tab, setTab] = useState('login');
   const { login } = useAuth();
   const [inputs, setInputs] = useState({
     email: '',
@@ -15,6 +15,7 @@ function DangNhap() {
     passwordCf: '',
     firstName: '',
     lastName: '',
+    otp: '',
   });
   useEffect(() => {
     document.querySelectorAll('input').forEach((input) => {
@@ -23,43 +24,86 @@ function DangNhap() {
       }
     });
   }, []);
-  useEffect(() => {
-    setInputs({
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-    });
-  }, [isLogin]);
   const handleInputChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
   const handleLogin = () => {
-    axios
-      .post('http://localhost:3003/api/auth/login', inputs)
-      .then((res) => {
-        Cookies.set('token', res.data.token, { expires: 7, secure: true });
-        login(res.data.token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (inputs.email === '') {
+      alert('Vui lòng nhập email !');
+    } else if (inputs.password === '') {
+      alert('Vui lòng nhập mật khẩu !');
+    } else {
+      axios
+        .post('http://localhost:3003/api/auth/login', inputs)
+        .then((res) => {
+          Cookies.set('token', res.data.token, { expires: 7, secure: true });
+          login(res.data.token);
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            alert(err.response.data.message);
+          }
+          console.log(err);
+        });
+    }
   };
-
+  const handleRegister = () => {
+    if (inputs.email === '') {
+      alert('Vui lòng nhập email !');
+    } else if (inputs.password === '') {
+      alert('Vui lòng nhập mật khẩu !');
+    } else if (inputs.password !== inputs.passwordCf) {
+      alert('xác nhận mật khẩu không khớp');
+      return;
+    } else {
+      axios
+        .post('http://localhost:3003/api/auth/register', inputs)
+        .then((res) => {
+          setTab('otp');
+        })
+        .catch((err) => {
+          if (err.status === 402) {
+            alert('Email đã tồn tại');
+            return;
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
+  const handleOtp = () => {
+    if (inputs.otp === '') {
+      alert('Vui lòng nhập mã otp !');
+    } else {
+      axios
+        .post('http://localhost:3003/api/auth/register/otp', inputs)
+        .then((res) => {
+          Cookies.set('token', res.data.token, { expires: 7, secure: true });
+          login(res.data.token);
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            alert(err.response.data.message);
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
   return (
     <div className={cx('wrapper')}>
       <div className={cx('form')}>
         <ul className={cx('tab-group')}>
-          <li className={cx('tab', { active: !isLogin })} onClick={() => setIsLogin(false)}>
+          <li className={cx('tab', { active: tab === 'signup' })} onClick={() => setTab('signup')}>
             <span>Đăng Kí</span>
           </li>
-          <li className={cx('tab', { active: isLogin })} onClick={() => setIsLogin(true)}>
+          <li className={cx('tab', { active: tab === 'login' })} onClick={() => setTab('login')}>
             <span>Đăng Nhập</span>
           </li>
         </ul>
 
         <div className={cx('tab-content')}>
-          {isLogin ? (
+          {tab === 'login' && (
             <div id="login">
               <h1>Đăng Nhập Để Đặt Lịch Ngay!</h1>
               <div className={cx('field-wrap')}>
@@ -84,7 +128,8 @@ function DangNhap() {
                 Đăng Nhập
               </button>
             </div>
-          ) : (
+          )}
+          {tab === 'signup' && (
             <div id="signup">
               <h1>Đăng Kí Miễn Phí</h1>
               <div className={cx('top-row')}>
@@ -109,7 +154,7 @@ function DangNhap() {
                 </label>
                 <input type="email" name="email" value={inputs.email} onChange={handleInputChange} required />
               </div>
-              {/* <div className={cx('top-row')}> */}
+
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.password })}>
                   Đặt Mật Khẩu<span className={cx('req')}>*</span>
@@ -117,7 +162,7 @@ function DangNhap() {
                 <input type="password" name="password" value={inputs.password} onChange={handleInputChange} required />
               </div>
               <div className={cx('field-wrap')}>
-                <label className={cx({ active: inputs.password })}>
+                <label className={cx({ active: inputs.passwordCf })}>
                   Xác Nhận Mật Khẩu<span className={cx('req')}>*</span>
                 </label>
                 <input
@@ -128,9 +173,22 @@ function DangNhap() {
                   required
                 />
               </div>
-              {/* </div> */}
 
-              <button type="submit" className={cx('button', 'button-block')}>
+              <button type="submit" onClick={handleRegister} className={cx('button', 'button-block')}>
+                Xác Nhận
+              </button>
+            </div>
+          )}
+          {tab === 'otp' && (
+            <div id="otp">
+              <h1>Nhập Mã OTP</h1>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.otp })}>
+                  Mã OTP<span className={cx('req')}>*</span>
+                </label>
+                <input type="text" name="otp" value={inputs.otp} onChange={handleInputChange} required />
+              </div>
+              <button type="submit" onClick={handleOtp} className={cx('button', 'button-block')}>
                 Xác Nhận
               </button>
             </div>

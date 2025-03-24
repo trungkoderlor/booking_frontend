@@ -100,7 +100,7 @@ function DatLich() {
       .then((res) => {
         if (res.status === 200) {
           alert('Đặt lịch thành công');
-          navigate('/lich-su-kham');
+          navigate('/lich-kham');
         }
       })
       .catch((err) => {

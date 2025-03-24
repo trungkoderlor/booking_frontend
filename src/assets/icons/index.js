@@ -4,6 +4,7 @@ const icons = {
   youtube: require('./youtube.png'),
   tiktok: require('./tiktok.png'),
   doctor: require('./doctor.png'),
+  patient: require('./patient.png'),
 };
 
 export default icons;

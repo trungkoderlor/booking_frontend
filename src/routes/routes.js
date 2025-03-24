@@ -7,7 +7,7 @@ import { TaiNha, TaiVien, SongKhoe } from '../pages/dichvu';
 import { KhamChuyenKhoa, ChiTietChuyenKhoa } from '../pages/dichvuyte';
 import { CoSoYTe, ChiTietCoSoYTe } from '../pages/CoSoYTe';
 import { BacSi, ChiTietBacSi, DatLich } from '../pages/BacSi';
-import { DangNhap } from '../pages/TaiKhoan';
+import { DangNhap, ThongTin } from '../pages/TaiKhoan';
 import { LichKham, HuongDan } from '../pages/LichKham';
 // Public routes
 const publicRoutes = [
@@ -26,6 +26,7 @@ const privateRoutes = [
   { path: config.routes.datLichKham, component: DatLich, layout: HeaderOnly },
   { path: config.routes.lichKham, component: LichKham },
   { path: config.routes.huongDan, component: HuongDan },
+  { path: config.routes.thongTin, component: ThongTin },
 ];
 
 export { publicRoutes, privateRoutes };

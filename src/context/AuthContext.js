@@ -28,7 +28,9 @@ export const AuthProvider = ({ children }) => {
   const login = (newToken) => {
     Cookies.set('token', newToken, { expires: 7, secure: true });
     setToken(newToken);
-    setShowLogin(false); // Ẩn modal sau khi đăng nhập
+    setShowLogin(false);
+    // Ẩn modal sau khi đăng nhập
+    setLoading(true);
   };
 
   const logout = () => {
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, loading, login, logout, showLogin, setShowLogin }}>
+    <AuthContext.Provider value={{ token, user, setUser, loading, login, logout, showLogin, setShowLogin }}>
       {children}
     </AuthContext.Provider>
   );

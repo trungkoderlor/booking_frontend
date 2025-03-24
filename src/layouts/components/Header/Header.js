@@ -3,12 +3,15 @@ import styles from './Header.module.scss';
 import Image from '../../../assets/images';
 import { useAuth } from '../../../hooks';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function Header({ className }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const { token, setShowLogin, logout, user, loading } = useAuth();
 
   return (
@@ -61,10 +64,26 @@ function Header({ className }) {
           </Link>
           <div className={cx('right-menu')}>
             {token ? (
-              <a onClick={logout}>
-                <FontAwesomeIcon icon={faUser} />
-                <span>{!loading && user.fullname}</span>
-              </a>
+              !loading && (
+                <div
+                  className={cx('user-menu')}
+                  onMouseEnter={() => setShowDropdown(true)}
+                  onMouseLeave={() => setShowDropdown(false)}
+                >
+                  <a>
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>{user.fullname}</span>
+                  </a>
+
+                  {showDropdown && (
+                    <div className={cx('dropdown-menu')}>
+                      <Link to={`/thong-tin/${user.slug}`}>Trang cá nhân</Link>
+                      <Link to="/lich-kham">Lịch khám</Link>
+                      <span onClick={logout}>Đăng xuất</span>
+                    </div>
+                  )}
+                </div>
+              )
             ) : (
               <a onClick={() => setShowLogin(true)}>
                 <FontAwesomeIcon icon={faUser} />
