@@ -90,6 +90,81 @@ function DangNhap() {
         });
     }
   };
+  const handleForgotPassword = () => {
+    if (inputs.email === '') {
+      alert('Vui lòng nhập email !');
+    } else {
+      axios
+        .post('http://localhost:3003/api/auth/forgot-password', inputs)
+        .then((res) => {
+          setTab('otp-forgot');
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            alert(err.response.data.message);
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
+  const handleResendOTP = () => {
+    axios
+      .post('http://localhost:3003/api/auth/forgot-password', inputs)
+      .then((res) => {
+        alert('Đã gửi lại mã otp');
+      })
+      .catch((err) => {
+        if (err.status === 401) {
+          alert(err.response.data.message);
+        } else {
+          console.log(err);
+        }
+      });
+  };
+  const handleOtpForgot = () => {
+    if (inputs.otp === '') {
+      alert('Vui lòng nhập mã otp !');
+    } else {
+      axios
+        .post('http://localhost:3003/api/auth/forgot-password/otp', inputs)
+        .then((res) => {
+          setTab('new-password');
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            alert(err.response.data.message);
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
+
+  const handleNewPassword = () => {
+    if (inputs.password === '') {
+      alert('Vui lòng nhập mật khẩu !');
+    }
+    if (inputs.password !== inputs.passwordCf) {
+      alert('xác nhận mật khẩu không khớp');
+      return;
+    } else {
+      axios
+        .patch('http://localhost:3003/api/auth/forgot-password/reset', inputs)
+        .then((res) => {
+          Cookies.set('token', res.data.token, { expires: 7, secure: true });
+          login(res.data.token);
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            alert(err.response.data.message);
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  };
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('form')}>
@@ -121,7 +196,7 @@ function DangNhap() {
               </div>
 
               <p className={cx('forgot')}>
-                <a href="#">Quên Mật Khẩu?</a>
+                <span onClick={() => setTab('forgot-password')}>Quên Mật Khẩu?</span>
               </p>
 
               <button className={cx('button', 'button-block')} onClick={handleLogin}>
@@ -157,7 +232,7 @@ function DangNhap() {
 
               <div className={cx('field-wrap')}>
                 <label className={cx({ active: inputs.password })}>
-                  Đặt Mật Khẩu<span className={cx('req')}>*</span>
+                  Đặt Mật Khẩu Mới<span className={cx('req')}>*</span>
                 </label>
                 <input type="password" name="password" value={inputs.password} onChange={handleInputChange} required />
               </div>
@@ -189,6 +264,76 @@ function DangNhap() {
                 <input type="text" name="otp" value={inputs.otp} onChange={handleInputChange} required />
               </div>
               <button type="submit" onClick={handleOtp} className={cx('button', 'button-block')}>
+                Xác Nhận
+              </button>
+            </div>
+          )}
+          {tab === 'forgot-password' && (
+            <div id="forgot-password">
+              <h1>Nhập Email Để Nhận Mã OTP</h1>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.email })}>
+                  Địa Chỉ Email<span className={cx('req')}>*</span>
+                </label>
+                <input type="email" name="email" value={inputs.email} onChange={handleInputChange} required />
+              </div>
+              <button type="submit" onClick={handleForgotPassword} className={cx('button', 'button-block')}>
+                Gửi
+              </button>
+            </div>
+          )}
+          {tab === 'otp-forgot' && (
+            <div id="otp">
+              <h1>Nhập Mã OTP</h1>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.email })}>
+                  Địa Chỉ Email<span className={cx('req')}>*</span>
+                </label>
+                <input type="email" name="email" className={cx('input-disabled')} value={inputs.email} readonly />
+              </div>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.otp })}>
+                  Mã OTP<span className={cx('req')}>*</span>
+                </label>
+                <input type="text" name="otp" value={inputs.otp} onChange={handleInputChange} required />
+              </div>
+              <p className={cx('resend', 'forgot')}>
+                <span onClick={handleResendOTP}>Gửi Lại Mã OTP</span>
+              </p>
+              <button type="submit" onClick={handleOtpForgot} className={cx('button', 'button-block')}>
+                Xác Nhận
+              </button>
+            </div>
+          )}
+          {tab === 'new-password' && (
+            <div id="new-password">
+              <h1>Nhập Mật Khẩu Mới</h1>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.email })}>
+                  Địa Chỉ Email<span className={cx('req')}>*</span>
+                </label>
+                <input type="email" name="email" className={cx('input-disabled')} value={inputs.email} readonly />
+              </div>
+
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.password })}>
+                  Đặt Mật Khẩu<span className={cx('req')}>*</span>
+                </label>
+                <input type="password" name="password" value={inputs.password} onChange={handleInputChange} required />
+              </div>
+              <div className={cx('field-wrap')}>
+                <label className={cx({ active: inputs.passwordCf })}>
+                  Xác Nhận Mật Khẩu<span className={cx('req')}>*</span>
+                </label>
+                <input
+                  type="password"
+                  name="passwordCf"
+                  value={inputs.passwordCf}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <button type="submit" onClick={handleNewPassword} className={cx('button', 'button-block')}>
                 Xác Nhận
               </button>
             </div>

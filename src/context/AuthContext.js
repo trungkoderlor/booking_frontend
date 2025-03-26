@@ -15,7 +15,10 @@ export const AuthProvider = ({ children }) => {
         .get('http://localhost:3003/api/auth/me', {
           headers: { Authorization: `Bearer ${token}` },
         })
-        .then((res) => setUser(res.data))
+        .then((res) => {
+          setUser(res.data);
+          setLoading(false);
+        })
         .catch(() => {
           setUser(null);
           Cookies.removeItem('token');
@@ -29,7 +32,6 @@ export const AuthProvider = ({ children }) => {
     Cookies.set('token', newToken, { expires: 7, secure: true });
     setToken(newToken);
     setShowLogin(false);
-    // Ẩn modal sau khi đăng nhập
     setLoading(true);
   };
 
@@ -39,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, setUser, loading, login, logout, showLogin, setShowLogin }}>
+    <AuthContext.Provider value={{ token, user, setUser, loading, setLoading, login, logout, showLogin, setShowLogin }}>
       {children}
     </AuthContext.Provider>
   );

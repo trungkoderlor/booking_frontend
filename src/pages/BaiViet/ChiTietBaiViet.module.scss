@@ -1,0 +1,114 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-body-color);
+  position: relative;
+  &::after {
+    content: '';
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 101vw;
+    height: calc(100% + 25px);
+    background-color: var(--bg-body-color);
+    transform: translateX(-51%);
+    z-index: -1;
+  }
+}
+
+.post-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  min-height: 200px;
+  position: relative;
+
+  h1 {
+    z-index: 2;
+    color: var(--text-color);
+    font-size: 2.2rem;
+    font-weight: 600;
+  }
+  &::after {
+    content: '';
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 101vw;
+    height: calc(100% + 25px);
+    background-image: url('../../assets/images/baiviet/poster.png');
+    opacity: 0.5;
+    background-repeat: no-repeat; // Ngăn lặp lại
+    background-size: cover; // Phủ toàn bộ phần tử mà không bị lặp
+    background-position: center; // Căn giữa ảnh nền
+    transform: translateX(-51%);
+    z-index: 1;
+  }
+  margin-bottom: 4rem;
+}
+.post-info {
+  width: 80%;
+  .thumbnail {
+    // wrapcontent
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+  }
+  .body {
+    background-color: var(--white);
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  .sidebar {
+    margin-top: 1rem;
+    background-color: var(--white);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 2px solid var(--secondary);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    position: relative;
+    .note {
+      padding: 1rem;
+      background-color: #ffffcc;
+      margin: 2rem 0.5rem 0 0.5rem;
+      border: 4px solid var(--border-color);
+      position: relative;
+      &::after {
+        content: '';
+        margin: 0px;
+        position: absolute;
+        top: -1.5rem;
+        left: calc(50% + 0.5rem);
+        width: calc(100% + 1rem);
+        height: 1px;
+        background-color: var(--icon-color-secondary);
+        background-repeat: no-repeat; // Ngăn lặp lại
+        background-size: cover; // Phủ toàn bộ phần tử mà không bị lặp
+        background-position: center; // Căn giữa ảnh nền
+        transform: translateX(-51%);
+        z-index: 1;
+      }
+    }
+    svg {
+      margin-right: 0.5rem;
+    }
+    .title {
+      cursor: pointer;
+    }
+    .active {
+      color: var(--icon-color-secondary);
+    }
+  }
+}

@@ -22,6 +22,7 @@ function Header({ className }) {
           <div className={cx('loading-spinner')}></div>
         </div>
       )}
+
       <header className={cx('wrapper', className)}>
         <div className={cx('inner')}>
           <h1 className={cx('logo')}>
@@ -64,7 +65,8 @@ function Header({ className }) {
           </Link>
           <div className={cx('right-menu')}>
             {token ? (
-              !loading && (
+              !loading &&
+              user && (
                 <div
                   className={cx('user-menu')}
                   onMouseEnter={() => setShowDropdown(true)}

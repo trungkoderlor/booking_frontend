@@ -15,6 +15,7 @@ import { Navigation } from 'swiper/modules';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../hooks';
 const items = [
   { id: 1, name: 'Item 1' },
   { id: 2, name: 'Item 2' },
@@ -28,7 +29,7 @@ function Home() {
   const [specialties, setSpecialties] = useState([]);
   const [clinics, setClinics] = useState([]);
   const [doctors, setDoctors] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading } = useAuth();
   useEffect(() => {
     axios
       .get('http://localhost:3003/api/specialties')
@@ -46,6 +47,20 @@ function Home() {
       .get('http://localhost:3003/api/clinics')
       .then((response) => {
         setClinics(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Lỗi khi gọi API:', error);
+        setLoading(false);
+      });
+  }, []);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3003/api/posts')
+      .then((response) => {
+        setPosts(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -147,27 +162,17 @@ function Home() {
         </div>
       </div>
       <div className={classNames(cx('posts', 'category'))}>
-        <h4 className={cx('title')}>Cẩm Nang</h4>
+        <h4 className={cx('title')}>Bài Viết Mới Nhất</h4>
         <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
-            {items.map((item) => (
+          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={posts.length > 3} loop={true}>
+            {posts.map((item) => (
               <SwiperSlide key={item.id}>
-                <div className={cx('slide-item-post')}>
-                  <RectangleItem srcImage={images.timMach} title="Tim mạch" link="/dich-vu-y-te/kham-chuyen-khoa" />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-      <div className={classNames(cx('posts', 'category'))}>
-        <h4 className={cx('title')}>Sống khỏe suốt đời</h4>
-        <div className={cx('swiper-container')}>
-          <Swiper modules={[Navigation]} slidesPerView={3} spaceBetween={40} navigation={true} loop={true}>
-            {items.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className={cx('slide-item-post')}>
-                  <RectangleItem srcImage={images.timMach} title="Tim mạch" link="/dich-vu-y-te/kham-chuyen-khoa" />
+                <div className={cx('slide-item')}>
+                  <RectangleItem
+                    srcImage={`http://localhost:3003${item.poster}`}
+                    title={item.title}
+                    link={`/bai-viet/${item.slug}`}
+                  />
                 </div>
               </SwiperSlide>
             ))}

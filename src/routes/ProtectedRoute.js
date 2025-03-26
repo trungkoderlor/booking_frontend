@@ -3,7 +3,7 @@ import { useAuth } from '../hooks';
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useAuth();
-  return token ? children : <Navigate to="/tai-khoan/dang-nhap" replace />;
+  return token ? children : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

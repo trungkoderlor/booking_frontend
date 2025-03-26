@@ -103,6 +103,11 @@
 .btn-save:hover {
   background: var(--text-color-secondary);
 }
+.wrapper-avatar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .avatar {
   width: 150px;
   border-radius: 50%;
@@ -141,4 +146,10 @@
 
 .btn-upload:hover {
   background: #0056b3;
+}
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
 }

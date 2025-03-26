@@ -13,21 +13,27 @@ const ThongTin = () => {
     email: '',
     phone: '',
     address: '',
+    gender: '',
     avatar: icons.patient,
   });
-
+  const [password, setPassword] = useState({
+    currentPassword: '',
+    newPassword: '',
+    cfPassword: '',
+  });
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleInputChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+  const handlePasswordChange = (e) => {
+    setPassword({ ...password, [e.target.name]: e.target.value });
   };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-
-      // Hiển thị ảnh ngay lập tức trên giao diện
       const imageUrl = URL.createObjectURL(file);
       setInputs((prev) => ({ ...prev, avatar: imageUrl }));
     }
@@ -41,6 +47,7 @@ const ThongTin = () => {
     formData.append('email', inputs.email);
     formData.append('phone', inputs.phone);
     formData.append('address', inputs.address);
+    formData.append('gender', inputs.gender);
 
     if (selectedFile) {
       formData.append('avatar', selectedFile); // Nếu có ảnh mới thì gửi lên backend
@@ -57,13 +64,47 @@ const ThongTin = () => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    if (user.avatar) {
-      setInputs({ ...inputs, avatar: `http://localhost:3003${user.avatar}` });
+  const handleSubmitChangePassword = async (e) => {
+    e.preventDefault();
+    if (!password.currentPassword || !password.newPassword || !password.cfPassword) {
+      alert('Vui lòng nhập đầy đủ thông tin');
+      return;
     }
-    setInputs({ ...inputs, fullname: user.fullname, email: user.email, phone: user.phone, address: user.address });
-  }, [user]);
+    if (password.newPassword !== password.cfPassword) {
+      alert('Mật khẩu không khớp');
+      return;
+    }
+    axios
+      .patch('http://localhost:3003/api/users/change-password', password, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        alert(res.data.message);
+        setPassword({
+          currentPassword: '',
+          newPassword: '',
+          cfPassword: '',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    if (!loading) {
+      if (user.avatar) {
+        setInputs({ ...inputs, avatar: `http://localhost:3003${user.avatar}` });
+      }
+      setInputs({
+        ...inputs,
+        fullname: user.fullname,
+        email: user.email,
+        phone: user.phone,
+        gender: user.gender,
+        address: user.address,
+      });
+    }
+  }, [loading]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -87,8 +128,12 @@ const ThongTin = () => {
         {activeTab === 'profile' && (
           <div className={cx('tab-content')}>
             <h2>Thông Tin Tài Khoản</h2>
-            <div className={cx('avatar')}>
-              <img src={user.avatar ? `http://localhost:3003${user.avatar}` : icons.patient} alt="avatar" />
+            <div className={cx('wrapper-avatar')}>
+              <img
+                className={cx('avatar')}
+                src={user.avatar ? `http://localhost:3003${user.avatar}` : icons.patient}
+                alt="avatar"
+              />
             </div>
             <div className={cx('info-item')}>
               <span className={cx('label')}>Họ và tên:</span>
@@ -96,7 +141,10 @@ const ThongTin = () => {
             </div>
             <div className={cx('info-item')}>
               <span className={cx('label')}>Giới tính</span>
-              <span className={cx('value')}>{user.gender === 'male' ? 'Nam' : 'Nữ'}</span>
+              <span className={cx('value')}>
+                {user.gender === 'male' && <span>Nam</span>}
+                {user.gender === 'female' && <span>Nữ</span>}
+              </span>
             </div>
             <div className={cx('info-item')}>
               <span className={cx('label')}>Email:</span>
@@ -129,6 +177,30 @@ const ThongTin = () => {
                 <input type="text" value={inputs.fullname} name="fullname" onChange={handleInputChange} />
               </div>
               <div className={cx('input-group')}>
+                <div className={cx('radio-group')}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={inputs.gender === 'male'}
+                      onChange={handleInputChange}
+                    />
+                    Nam
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={inputs.gender === 'female'}
+                      onChange={handleInputChange}
+                    />
+                    Nữ
+                  </label>
+                </div>
+              </div>
+              <div className={cx('input-group')}>
                 <label>Email:</label>
                 <input type="email" value={inputs.email} name="email" onChange={handleInputChange} />
               </div>
@@ -150,18 +222,31 @@ const ThongTin = () => {
         {activeTab === 'password' && (
           <div className={cx('tab-content')}>
             <h2>Đổi Mật Khẩu</h2>
-            <form>
+            <div className={cx('avatar-upload')}>
+              <img src={inputs.avatar} alt="Avatar" className={cx('avatar')} />
+            </div>
+            <form onSubmit={handleSubmitChangePassword}>
               <div className={cx('input-group')}>
                 <label>Mật khẩu hiện tại:</label>
-                <input type="password" />
+                <input
+                  type="password"
+                  name="currentPassword"
+                  value={password.currentPassword}
+                  onChange={handlePasswordChange}
+                />
               </div>
               <div className={cx('input-group')}>
                 <label>Mật khẩu mới:</label>
-                <input type="password" />
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={password.newPassword}
+                  onChange={handlePasswordChange}
+                />
               </div>
               <div className={cx('input-group')}>
                 <label>Xác nhận mật khẩu:</label>
-                <input type="password" />
+                <input type="password" name="cfPassword" value={password.cfPassword} onChange={handlePasswordChange} />
               </div>
               <button type="submit" className={cx('btn-save')}>
                 Đổi Mật Khẩu

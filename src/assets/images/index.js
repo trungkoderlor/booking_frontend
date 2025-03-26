@@ -20,7 +20,9 @@ const images = {
   thucdon: require('./baiviet/thucdon7ngay.png'),
   lapkehoach: require('./baiviet/lapkehoach.png'),
   iconQuyTrinh: require('./baiviet/iconquytrinh.png'),
+  iconHopTac: require('./baiviet/iconhoptac.png'),
   helloDoctor: require('./partners/hellodoctor.png'),
+  posterBaiViet: require('./baiviet/poster.png'),
 };
 
 export default images;
