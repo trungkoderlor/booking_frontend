@@ -1,13 +1,14 @@
 import styles from './ChiTietBaiViet.module.scss';
 
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function ChiTietBaiViet() {
   const [post, setPost] = useState(null);
@@ -16,7 +17,7 @@ function ChiTietBaiViet() {
   const { slug } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/posts/${slug}`)
+      .get(`/api/posts/${slug}`)
       .then((response) => {
         setPost(response.data);
         setLoading(false);
@@ -46,7 +47,7 @@ function ChiTietBaiViet() {
       <div className={cx('post-info')}>
         <div className={cx('body')}>
           <div className={cx('thumbnail')}>
-            <img src={`http://localhost:3003${post.poster}`} alt={post.title} />
+            <img src={`${API_BASE_URL}${post.poster}`} alt={post.title} />
           </div>
           <div className={cx('title')}>
             <h3>{post.title}</h3>

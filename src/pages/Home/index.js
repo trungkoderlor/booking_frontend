@@ -13,17 +13,10 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks';
-const items = [
-  { id: 1, name: 'Item 1' },
-  { id: 2, name: 'Item 2' },
-  { id: 3, name: 'Item 3' },
-  { id: 4, name: 'Item 4' },
-  { id: 5, name: 'Item 5' },
-  { id: 6, name: 'Item 6' },
-];
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function Home() {
   const [specialties, setSpecialties] = useState([]);
@@ -32,19 +25,19 @@ function Home() {
   const { loading, setLoading } = useAuth();
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/specialties')
+      .get(`/api/specialties`)
       .then((response) => setSpecialties(response.data))
       .catch((error) => console.error('Lỗi khi gọi API:', error));
   }, []);
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/doctors')
+      .get(`/api/doctors`)
       .then((response) => setDoctors(response.data))
       .catch((error) => console.error('Lỗi khi gọi API:', error));
   }, []);
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/clinics')
+      .get(`/api/clinics`)
       .then((response) => {
         setClinics(response.data);
         setLoading(false);
@@ -58,7 +51,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/posts')
+      .get(`/api/posts`)
       .then((response) => {
         setPosts(response.data);
         setLoading(false);
@@ -105,7 +98,7 @@ function Home() {
                 <div className={cx('slide-item')}>
                   <RectangleItem
                     key={item._id}
-                    srcImage={`http://localhost:3003${item.avatar}`}
+                    srcImage={`${API_BASE_URL}${item.avatar}`}
                     title={item.name}
                     link={`/dich-vu-y-te/kham-chuyen-khoa/${item.slug}`}
                   />
@@ -130,7 +123,7 @@ function Home() {
                 <div className={cx('slide-item', 'clinic')}>
                   <RectangleItem
                     key={item._id}
-                    srcImage={`http://localhost:3003${item.avatar}`}
+                    srcImage={`${API_BASE_URL}${item.avatar}`}
                     title={item.name}
                     link={`/co-so-y-te/${item.slug}`}
                   />
@@ -151,7 +144,7 @@ function Home() {
                     className={cx('home')}
                     specialty={item.specialty}
                     key={item._id}
-                    srcImage={`http://localhost:3003${item.userId.avatar}`}
+                    srcImage={`${API_BASE_URL}${item.userId.avatar}`}
                     title={item.userId.fullname}
                     link={`/bac-si/${item.userId.slug}`}
                   />
@@ -169,7 +162,7 @@ function Home() {
               <SwiperSlide key={item.id}>
                 <div className={cx('slide-item')}>
                   <RectangleItem
-                    srcImage={`http://localhost:3003${item.poster}`}
+                    srcImage={`${API_BASE_URL}${item.poster}`}
                     title={item.title}
                     link={`/bai-viet/${item.slug}`}
                   />

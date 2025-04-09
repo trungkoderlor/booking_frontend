@@ -1,7 +1,7 @@
 import styles from './ChiTiet.module.scss';
 import DoctorItem from '../../components/DoctorItem';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState, useRef } from 'react';
 
@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faHouseMedical } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function SDatePicker({ onChange }) {
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
@@ -52,7 +53,7 @@ function SDatePicker({ onChange }) {
 }
 
 function ChiTiet() {
-  const { token, setShowLogin } = useAuth();
+  const { setShowLogin, user } = useAuth();
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -61,7 +62,7 @@ function ChiTiet() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/doctors/${slug}`)
+      .get(`/api/doctors/${slug}`)
       .then((response) => {
         setDoctor(response.data);
 
@@ -73,10 +74,10 @@ function ChiTiet() {
       });
   }, [slug]);
   useEffect(() => {
-    if (token && redirectTo) {
+    if (user && redirectTo) {
       navigate(redirectTo);
     }
-  }, [token, redirectTo, navigate]);
+  }, [user, redirectTo, navigate]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -115,7 +116,7 @@ function ChiTiet() {
           className={cx('detail')}
           specialty={doctor.specialty}
           key={doctor._id}
-          srcImage={`http://localhost:3003${doctor.avatar}`}
+          srcImage={`${API_BASE_URL}${doctor.avatar}`}
           title={doctor.fullname}
           address={doctor.address}
           link={`/bac-si/${doctor.slug}`}
@@ -134,11 +135,11 @@ function ChiTiet() {
             <div className={cx('time-table')}>
               {filteredSchedule.map((item, index) => (
                 <Link
-                  to={token ? `/bac-si/${slug}/dat-lich/${item._id}` : '#'}
+                  to={user ? `/bac-si/${slug}/dat-lich/${item._id}` : '#'}
                   key={item._id}
                   className={cx('time-item')}
                   onClick={(e) => {
-                    if (!token) {
+                    if (!user) {
                       e.preventDefault();
                       setRedirectTo(`/bac-si/${slug}/dat-lich/${item._id}`);
                       setShowLogin(true);

@@ -3,11 +3,12 @@ import styles from './ThongTin.module.scss';
 import classNames from 'classnames/bind';
 import { useAuth } from '../../hooks';
 import icons from '../../assets/icons';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 const ThongTin = () => {
   const [activeTab, setActiveTab] = useState('profile');
-  const { user, loading, token, setUser } = useAuth();
+  const { user, loading, setUser } = useAuth();
   const [inputs, setInputs] = useState({
     fullname: '',
     email: '',
@@ -54,9 +55,7 @@ const ThongTin = () => {
     }
 
     axios
-      .patch('http://localhost:3003/api/users/update', formData, {
-        headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
-      })
+      .patch(`${API_BASE_URL}/api/users/update`, formData)
       .then((res) => {
         setUser(res.data);
       })
@@ -75,9 +74,7 @@ const ThongTin = () => {
       return;
     }
     axios
-      .patch('http://localhost:3003/api/users/change-password', password, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .patch(`/api/users/change-password`, password)
       .then((res) => {
         alert(res.data.message);
         setPassword({
@@ -92,16 +89,15 @@ const ThongTin = () => {
   };
   useEffect(() => {
     if (!loading) {
-      if (user.avatar) {
-        setInputs({ ...inputs, avatar: `http://localhost:3003${user.avatar}` });
-      }
       setInputs({
         ...inputs,
         fullname: user.fullname,
         email: user.email,
         phone: user.phone,
         gender: user.gender,
+
         address: user.address,
+        avatar: `${API_BASE_URL}${user.avatar}`,
       });
     }
   }, [loading]);
@@ -131,7 +127,7 @@ const ThongTin = () => {
             <div className={cx('wrapper-avatar')}>
               <img
                 className={cx('avatar')}
-                src={user.avatar ? `http://localhost:3003${user.avatar}` : icons.patient}
+                src={user.avatar ? `${API_BASE_URL}${user.avatar}` : icons.patient}
                 alt="avatar"
               />
             </div>

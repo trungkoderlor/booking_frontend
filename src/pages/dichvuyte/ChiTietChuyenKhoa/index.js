@@ -1,10 +1,11 @@
 import styles from './ChiTietChuyenKhoa.module.scss';
 import DoctorItem from '../../../components/DoctorItem';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../../utils/httpRequest';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function ChiTietChuyenKhoa() {
   const [specialty, setSpecialty] = useState(null);
@@ -12,7 +13,7 @@ function ChiTietChuyenKhoa() {
   const { slug } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/specialties/${slug}`)
+      .get(`/api/specialties/${slug}`)
       .then((response) => {
         setSpecialty(response.data);
         setLoading(false);
@@ -34,10 +35,7 @@ function ChiTietChuyenKhoa() {
         <title>{specialty.name}</title>
       </Helmet>
 
-      <div
-        className={cx('specialty-info')}
-        style={{ backgroundImage: `url(http://localhost:3003${specialty.avatar})` }}
-      >
+      <div className={cx('specialty-info')} style={{ backgroundImage: `url(${API_BASE_URL}${specialty.avatar})` }}>
         <div className={cx('title')}>
           <h3>{specialty.name}</h3>
         </div>
@@ -52,7 +50,7 @@ function ChiTietChuyenKhoa() {
             className={cx('list')}
             key={item._id}
             clinic={item.clinic}
-            srcImage={`http://localhost:3003${item.userId.avatar}`}
+            srcImage={`${API_BASE_URL}${item.userId.avatar}`}
             title={item.userId.fullname}
             link={`/bac-si/${item.userId.slug}`}
           />

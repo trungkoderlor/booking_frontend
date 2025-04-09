@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function Header({ className }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const { token, setShowLogin, logout, user, loading } = useAuth();
+  const { setShowLogin, logout, user, loading } = useAuth();
 
   return (
     <>
@@ -64,7 +64,7 @@ function Header({ className }) {
             <span className={cx('place-holder')}>Tìm kiếm ...</span>
           </Link>
           <div className={cx('right-menu')}>
-            {token ? (
+            {user ? (
               !loading &&
               user && (
                 <div

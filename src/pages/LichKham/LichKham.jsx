@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import styles from './LichKham.module.scss';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,19 +9,15 @@ import { faClock, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
 import icons from '../../assets/icons';
 import Image from '../../components/Image';
 import { Link } from 'react-router-dom';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function LichKham() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { token } = useAuth();
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/bookings', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/api/bookings`)
       .then((response) => {
         setBookings(response.data);
         setLoading(false);
@@ -83,8 +79,8 @@ function LichKham() {
                   <span>{booking.reasons}</span>
                 </div>
               )}
-              <div className={cx('status')}>
-                <span>Đang chờ xác nhận</span>
+              <div className={cx('status', booking.statusId)}>
+                <span>{booking.status}</span>
               </div>
             </div>
           </Link>

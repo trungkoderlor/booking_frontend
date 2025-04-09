@@ -13,8 +13,9 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { useAuth } from '../../hooks';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const items = [
   { id: 1, name: 'Item 1' },
   { id: 2, name: 'Item 2' },
@@ -29,7 +30,7 @@ function BaiViet() {
   const { loading, setLoading } = useAuth();
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/posts')
+      .get(`/api/posts`)
       .then((response) => {
         setPosts(response.data);
         setLoading(false);
@@ -52,7 +53,7 @@ function BaiViet() {
               <SwiperSlide key={item.id}>
                 <div className={cx('slide-item')}>
                   <RectangleItem
-                    srcImage={`http://localhost:3003${item.poster}`}
+                    srcImage={`${API_BASE_URL}${item.poster}`}
                     title={item.title}
                     link={`/bai-viet/${item.slug}`}
                   />
@@ -71,7 +72,7 @@ function BaiViet() {
                 {item.featured && (
                   <div className={cx('slide-item')}>
                     <RectangleItem
-                      srcImage={`http://localhost:3003${item.poster}`}
+                      srcImage={`${API_BASE_URL}${item.poster}`}
                       title={item.title}
                       link={`/bai-viet/${item.slug}`}
                     />

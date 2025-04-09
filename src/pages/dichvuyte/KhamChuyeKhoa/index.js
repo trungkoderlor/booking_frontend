@@ -1,15 +1,16 @@
 import SpecialtyItem from '../../../components/SpecialtyItem';
 import styles from './KhamChuyenKhoa.module.scss';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../../utils/httpRequest';
 import { useEffect, useState } from 'react';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function KhamChuyenKhoa() {
   const [specialties, setSpecialties] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/specialties')
+      .get(`/api/specialties`)
       .then((response) => setSpecialties(response.data))
       .catch((error) => console.error('Lỗi khi gọi API:', error));
   }, []);
@@ -23,7 +24,7 @@ function KhamChuyenKhoa() {
         {specialties.map((item) => (
           <SpecialtyItem
             key={item._id}
-            srcIcon={`http://localhost:3003${item.avatar}`} // Thêm đường dẫn backend
+            srcIcon={`${API_BASE_URL}${item.avatar}`} // Thêm đường dẫn backend
             title={item.name}
             link={`/dich-vu-y-te/kham-chuyen-khoa/${item.slug}`}
           />

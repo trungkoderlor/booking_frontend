@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import Image from '../../components/Image';
 import InputIcon from '../../components/InputIcon';
 import { useAuth } from '../../hooks';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -17,8 +17,7 @@ import {
   faLocationDot,
   faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
-
-import { Link } from 'react-router-dom';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 
 function DatLich() {
@@ -27,11 +26,11 @@ function DatLich() {
   const [schedule, setSchedule] = useState(null);
   const navigate = useNavigate();
   const { slug, schedule_id } = useParams();
-  const { user, loading, token } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/doctors/${slug}/schedule/${schedule_id}`)
+      .get(`/api/doctors/${slug}/schedule/${schedule_id}`)
       .then((response) => {
         setSchedule(response.data);
         setLoading(false);
@@ -43,7 +42,7 @@ function DatLich() {
   }, [schedule_id, slug]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/doctors/${slug}`)
+      .get(`/api/doctors/${slug}`)
       .then((response) => {
         setDoctor(response.data);
         setLoading(false);
@@ -88,15 +87,7 @@ function DatLich() {
       return;
     }
     axios
-      .post(
-        'http://localhost:3003/api/bookings/create',
-        { info: inputs, doctor_slug: slug, schedule_id: schedule_id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Gửi token trong headers
-          },
-        },
-      )
+      .post(`/api/bookings/create`, { info: inputs, doctor_slug: slug, schedule_id: schedule_id })
       .then((res) => {
         if (res.status === 200) {
           alert('Đặt lịch thành công');
@@ -122,7 +113,7 @@ function DatLich() {
       </Helmet>
       <div className={cx('doctor_info')}>
         <div className={cx('content')}>
-          <Image src={`http://localhost:3003${doctor.avatar}`} alt={doctor.fullname} />
+          <Image src={`${API_BASE_URL}${doctor.avatar}`} alt={doctor.fullname} />
           <div className={cx('info')}>
             <h5>ĐẶT LỊCH KHÁM</h5>
             <h5 className={cx('name')}>{doctor.fullname}</h5>

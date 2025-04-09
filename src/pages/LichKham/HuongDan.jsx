@@ -1,23 +1,19 @@
 import styles from './HuongDan.module.scss';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function HuongDan() {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
   const { id } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/bookings/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/api/bookings/${id}`)
       .then((response) => {
         setBooking(response.data);
         setLoading(false);

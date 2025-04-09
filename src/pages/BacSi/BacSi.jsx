@@ -2,8 +2,9 @@ import DoctorItem from '../../components/DoctorItem';
 import { Helmet } from 'react-helmet-async';
 import styles from './BacSi.module.scss';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import { useEffect, useState } from 'react';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 function BacSi() {
   const [doctors, setDoctors] = useState([]);
@@ -11,7 +12,7 @@ function BacSi() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3003/api/doctors')
+      .get(`/api/doctors`)
       .then((response) => {
         setDoctors(response.data);
         setLoading(false);
@@ -38,7 +39,7 @@ function BacSi() {
             className={cx('list')}
             specialty={item.specialty}
             key={item._id}
-            srcImage={`http://localhost:3003${item.userId.avatar}`}
+            srcImage={`${API_BASE_URL}${item.userId.avatar}`}
             title={item.userId.fullname}
             link={`/bac-si/${item.userId.slug}`}
           />

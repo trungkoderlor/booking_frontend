@@ -1,12 +1,12 @@
 import styles from './ChiTiet.module.scss';
 import DoctorItem from '../../components/DoctorItem';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import Image from '../../components/Image';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const cx = classNames.bind(styles);
 
 function ChiTiet() {
@@ -15,7 +15,7 @@ function ChiTiet() {
   const { slug } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/clinics/${slug}`)
+      .get(`/api/clinics/${slug}`)
       .then((response) => {
         setClinic(response.data);
         setLoading(false);
@@ -38,7 +38,7 @@ function ChiTiet() {
       </Helmet>
       <div className={cx('header')}>
         <div className={cx('banner')}>
-          <Image src={`http://localhost:3003${clinic.avatar}`} alt={clinic.name} />
+          <Image src={`${API_BASE_URL}${clinic.avatar}`} alt={clinic.name} />
           <div className={cx('info')}>
             <h3>{clinic.name}</h3>
             <span>{clinic.address}</span>
@@ -55,7 +55,7 @@ function ChiTiet() {
             className={cx('list')}
             specialty={item.specialty}
             key={item._id}
-            srcImage={`http://localhost:3003${item.userId.avatar}`}
+            srcImage={`${API_BASE_URL}${item.userId.avatar}`}
             title={item.userId.fullname}
             link={`/bac-si/${item.userId.slug}`}
           />

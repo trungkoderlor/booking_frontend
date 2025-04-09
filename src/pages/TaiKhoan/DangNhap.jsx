@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './DangNhap.module.scss';
-import axios from 'axios';
+import axios from '../../utils/httpRequest';
 import Cookies from 'js-cookie';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const { useAuth } = require('../../hooks');
 const cx = classNames.bind(styles);
 
 function DangNhap() {
   const [tab, setTab] = useState('login');
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -34,10 +35,10 @@ function DangNhap() {
       alert('Vui lòng nhập mật khẩu !');
     } else {
       axios
-        .post('http://localhost:3003/api/auth/login', inputs)
+        .post(`/api/auth/login`, inputs)
         .then((res) => {
-          Cookies.set('token', res.data.token, { expires: 7, secure: true });
-          login(res.data.token);
+          login();
+          setUser(res.data.user);
         })
         .catch((err) => {
           if (err.status === 401) {
@@ -57,7 +58,7 @@ function DangNhap() {
       return;
     } else {
       axios
-        .post('http://localhost:3003/api/auth/register', inputs)
+        .post(`/api/auth/register`, inputs)
         .then((res) => {
           setTab('otp');
         })
@@ -76,10 +77,9 @@ function DangNhap() {
       alert('Vui lòng nhập mã otp !');
     } else {
       axios
-        .post('http://localhost:3003/api/auth/register/otp', inputs)
+        .post(`/api/auth/register/otp`, inputs)
         .then((res) => {
-          Cookies.set('token', res.data.token, { expires: 7, secure: true });
-          login(res.data.token);
+          login();
         })
         .catch((err) => {
           if (err.status === 401) {
@@ -95,7 +95,7 @@ function DangNhap() {
       alert('Vui lòng nhập email !');
     } else {
       axios
-        .post('http://localhost:3003/api/auth/forgot-password', inputs)
+        .post(`/api/auth/forgot-password`, inputs)
         .then((res) => {
           setTab('otp-forgot');
         })
@@ -110,7 +110,7 @@ function DangNhap() {
   };
   const handleResendOTP = () => {
     axios
-      .post('http://localhost:3003/api/auth/forgot-password', inputs)
+      .post(`/api/auth/forgot-password`, inputs)
       .then((res) => {
         alert('Đã gửi lại mã otp');
       })
@@ -127,7 +127,7 @@ function DangNhap() {
       alert('Vui lòng nhập mã otp !');
     } else {
       axios
-        .post('http://localhost:3003/api/auth/forgot-password/otp', inputs)
+        .post(`/api/auth/forgot-password/otp`, inputs)
         .then((res) => {
           setTab('new-password');
         })
@@ -150,10 +150,9 @@ function DangNhap() {
       return;
     } else {
       axios
-        .patch('http://localhost:3003/api/auth/forgot-password/reset', inputs)
+        .patch(`${API_BASE_URL}/api/auth/forgot-password/reset`, inputs)
         .then((res) => {
-          Cookies.set('token', res.data.token, { expires: 7, secure: true });
-          login(res.data.token);
+          login();
         })
         .catch((err) => {
           if (err.status === 401) {

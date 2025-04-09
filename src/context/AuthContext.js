@@ -1,47 +1,42 @@
 import { createContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-
+import axios from '../utils/httpRequest';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(Cookies.get('token') || null);
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (token) {
-      axios
-        .get('http://localhost:3003/api/auth/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setUser(res.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setUser(null);
-          Cookies.removeItem('token');
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [token]);
-  const login = (newToken) => {
-    Cookies.set('token', newToken, { expires: 7, secure: true });
-    setToken(newToken);
+    axios
+      .get(`/api/auth/me`)
+      .then((res) => {
+        setUser(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setUser(null);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+  const login = () => {
     setShowLogin(false);
-    setLoading(true);
+    setLoading(false);
   };
 
   const logout = () => {
-    Cookies.remove('token');
-    setToken(null);
+    axios
+      .get('/api/auth/logout')
+      .then(() => {
+        setUser(null);
+      })
+      .catch((err) => {
+        console.error('Logout error:', err);
+      });
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, setUser, loading, setLoading, login, logout, showLogin, setShowLogin }}>
+    <AuthContext.Provider value={{ user, setUser, loading, setLoading, login, logout, showLogin, setShowLogin }}>
       {children}
     </AuthContext.Provider>
   );
